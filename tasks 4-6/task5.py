@@ -20,44 +20,77 @@ def pretty_printer(func):
     @wraps(func)
     def wrapper(args):
         result = func(args)
-        print(f"{func.__name__}({args}) = {result:.3f}")
-        return result
+        #print(f"{func.__name__}({args}) = {result:.3f}")
+        return f"{func.__name__}({args}) = {result:.3f}"
     return wrapper
 
+
 @pretty_printer
-def sin(x):
+def sin_printer(x):
     return math.sin(x)
 
+
 @pretty_printer
-def cos(x):
+def cos_printer(x):
     return math.cos(x)
 
-print(sin(0))
-print(cos(0))
+
+x = 1
 
 
-def test_round_float(x):
-    s = sin(x)
-    if sin(x) == round(s, 3):
-        print("s округлено до 3 знаков после запятой")
+def test_sin_printer_1():
+    expected_result = "sin_printer(1) = 0.841"
+    actual_result = sin_printer(x)
+    if actual_result == expected_result:
+        print("test_sin_printer_1: ok")
     else:
-        print("s не округлено до 3 знаков после запятой")
+        print("test_sin_printer_1: fail")
+        print("Expected: {}, actual: {}".format(expected_result, actual_result))
+
+
+def test_cos_printer_1():
+    expected_result = "cos_printer(1) = 0.540"
+    actual_result = cos_printer(x)
+    if actual_result == expected_result:
+        print("test_cos_printer_1: ok")
+    else:
+        print("test_cos_printer_1: fail")
+        print("Expected: {}, actual: {}".format(expected_result, actual_result))
 
 
 def test_name_func_sin():
-    if sin.__name__ == "sin":
-        print(f"Имя функции {sin.__name__ } = sin")
+    expected_result = "sin_printer"
+    actual_result = sin_printer.__name__
+    if expected_result == actual_result:
+        print("test_name_func_sin: ok")
     else:
-        print(f"Имя функции {sin.__name__ } != sin")
+        print("test_name_func_sin: fail")
+        print("Expected: {}, actual: {}".format(expected_result, actual_result))
 
 
 def test_name_func_cos():
-    if cos.__name__ == "sin":
-        print(f"Имя функции {cos.__name__ } = cos")
+    expected_result = "cos_printer"
+    actual_result = cos_printer.__name__
+    if expected_result == actual_result:
+        print("test_name_func_cos: ok")
     else:
-        print(f"Имя функции {cos.__name__ } != cos")
+        print("test_name_func_cos: fail")
+        print("Expected: {}, actual: {}".format(expected_result, actual_result))
+
+
+def test_len_str_22():
+    expected_result = 22  # cos_printer(1) = 0.540
+    actual_result = len(sin_printer(x))
+    if actual_result == expected_result:
+        print("test_len_str_22: ok")
+    else:
+        print("test_len_str_22: fail")
+        print("Expected: {}, actual: {}".format(expected_result, actual_result))
+
 
 if __name__ == "__main__":
-    test_round_float(8)
+    test_sin_printer_1()
+    test_cos_printer_1()
     test_name_func_sin()
     test_name_func_cos()
+    test_len_str_22()

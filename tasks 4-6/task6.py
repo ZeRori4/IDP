@@ -16,50 +16,66 @@ def straightened_list(original_list):
     return result
 
 
-original_list = [1, [2, 3], [[[[4]]]], [5, [6, [7, [8]]]], 9, [10]]
-output_list = straightened_list(original_list)
-print(output_list)
-
-
-def test_empty_report():
-    if not original_list:
-        print("test_empty_report: ok")
+def test_empty_list():
+    test_data = []
+    expected_result = []
+    actual_result = straightened_list(test_data)
+    if actual_result == expected_result:
+        print("test_empty_list: ok")
     else:
-        print("test_empty_report: fail")
+        print("test_empty_list: fail")
+        print("Expected: {}, actual: {}".format(expected_result, actual_result))
 
 
-def test_base_report():
-    if output_list == [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]:
-        print("test_base_report: ok")
+def test_flat_list_len_1():
+    test_data = [1]
+    expected_result = [1]
+    actual_result = straightened_list(test_data)
+    if actual_result == expected_result:
+        print("test_flat_list_len_1: ok")
     else:
-        print("test_base_report: fail")
+        print("test_flat_list_len_1: fail")
+        print("Expected: {}, actual: {}".format(expected_result, actual_result))
 
 
-def test_isinstance_output_list():
-    if isinstance(output_list, list):
-        print("test_isinstance_output_list: ok")
+def test_flat_list_len_3():
+    test_data = [1, 2, 3]
+    expected_result = [1, 2, 3]
+    actual_result = straightened_list(test_data)
+    if actual_result == expected_result:
+        print("test_flat_list_len_3: ok")
     else:
-        print("test_isinstance_output_list: fail")
+        print("test_flat_list_len_3: fail")
+        print("Expected: {}, actual: {}".format(expected_result, actual_result))
 
-def test_isinstance_original_list():
-    if isinstance(original_list, list):
-        print("test_isinstance_original_list: ok")
+
+def test_list_recursion():
+    test_data = [1, 2, [3]]
+    expected_result = [1, 2, 3]
+    actual_result = straightened_list(test_data)
+    if actual_result == expected_result:
+        print("test_nested_list: ok")
     else:
-        print("test_isinstance_original_list: fail")
+        print("test_nested_list: fail")
+        print("Expected: {}, actual: {}".format(expected_result, actual_result))
 
 
-def test_recursion():
-    if list in output_list: # TODO
-        print("test_recursion: ok")
+def test_level_3_list_recursion():
+    test_data = [1, 2, [3, [4, [5, 6, 7, 8, 9, 10]]]]
+    expected_result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    actual_result = straightened_list(test_data)
+    if actual_result == expected_result:
+        print("test_nested_list: ok")
     else:
-        print("test_recursion: fail")
-
+        print("test_nested_list: fail")
+        print("Expected: {}, actual: {}".format(expected_result, actual_result))
 
 
 if __name__ == "__main__":
-    test_empty_report()
-    test_base_report()
-    test_isinstance_output_list()
-    test_isinstance_original_list()
-    test_recursion()
-    straightened_list(original_list)
+    test_empty_list()
+    test_flat_list_len_1()
+    test_flat_list_len_3()
+    test_list_recursion()
+    test_level_3_list_recursion()
+
+    #straightened_list(original_list)
