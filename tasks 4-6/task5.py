@@ -43,7 +43,7 @@ def test_check_three_zeros():
     def sin_printer(x):
         return math.sin(x)
     expected_result = True  # sin_printer(0) = 0.000
-    actual_result = sin_printer(x).endswith("000")
+    actual_result = sin_printer(x).endswith(".000")
     if expected_result == actual_result:
         print("test_check_three_zeros: ok")
     else:
@@ -56,9 +56,7 @@ def test_len_num_float_point():
     def cos_printer(x):
         return math.cos(x)
     expected_result = 3
-    actual_result = len('{:.3f}'.format(
-        float(cos_printer(0).split('= ')[-1])
-    ).split('.')[-1])
+    actual_result = len(cos_printer(0).split('.')[-1])
     if actual_result == expected_result:
         print("test_len_num_float_point: ok")
     else:
@@ -84,8 +82,8 @@ def test_isinstance_float():
     @pretty_printer
     def cos_printer(x):
         return math.cos(x)
-    expected_result = '{:.3f}'.format(float(cos_printer(1).split('= ')[-1]))
-    actual_result = cos_printer(1).split('= ')[-1]
+    expected_result = 0.540
+    actual_result = float(cos_printer(1).split('= ')[-1])
     if actual_result == expected_result:
         print("test_isinstance_float: ok")
     else:
