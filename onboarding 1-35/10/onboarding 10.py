@@ -13,7 +13,7 @@
     <parameter>
         <type>channel</type>
         <id>channel_id</id>
-        <name>Канал:</name>
+        <name>Канал</name>
         <value></value>
     </parameter>
     <parameter>
@@ -51,7 +51,8 @@ date_start = GLOBALS.get("date_start", "")
 
 date = int(time.mktime(datetime.datetime.strptime(date_start, '%d.%m.%Y').timetuple()))
 
-if user_function == "с фигурами":
-    screenshot_v2_figures(channel_id, file_name, full_path, str(date))
-else:
-    screenshot_v2(channel_id, file_name, full_path, str(date))
+
+def screenshot_mode(user_function, channel_id, file_name, full_path, date):
+    host.screenshot_v2_figures(channel_id, file_name, full_path, str(date)) \
+        if user_function == "с фигурами" \
+        else host.screenshot_v2(channel_id, file_name, full_path, str(date))

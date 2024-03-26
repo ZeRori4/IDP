@@ -23,13 +23,13 @@
     <parameter>
         <type>string_from_list</type>
         <id>user_function</id>
-        <name>функция</name>
+        <name>Функция</name>
         <value>+</value>
         <string_list>/,*,+,-</string_list>
     </parameter>
 <resources>
-    <resource>func.py</resource>
-</resources>
+        <resource>func.py</resource>
+    </resources>
 
 </parameters>
 """
@@ -43,8 +43,8 @@ resources = {
 }
 t1utils.resources_check(script_path, resources)
 
-from func import *
+from func import сalculator
 import host
 
-result = function.func(user_function, param_1, param_2)
-alert(result)
+result = сalculator.calculate(user_function, param_1, param_2)
+raise Exception(result)

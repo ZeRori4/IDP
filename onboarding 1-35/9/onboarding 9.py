@@ -1,24 +1,36 @@
+# Напишите здесь описание скрипта
+'''
+<parameters>
+	<title>onboarding 9</title>
+	<version>1.0</version>
+</parameters>
+'''
 import host
 import os
 import json
 
 shots_path = host.settings("system_wide_options")["screenshots_folder"]
 name_file = "ip_cameras.json"
-full_path = shots_path + "/" + name_file
+file_path = os.path.join(shots_path, name_file)
 
-server_guid = host.settings("").guid
-ip_cameras = objects_list("IP Device")
-guid_camers = [info[1] for info in ip_cameras]
-result = []
-for camera in guid_camers:
-    data = {}
-    data["name"] = host.settings("/%s/ip_cameras/%s" % (server_guid, camera))["name"]
-    data["guid"] = camera
-    data["channel00_audio_codec"] = host.settings("/%s/ip_cameras/%s" % (server_guid, camera))["channel00_audio_codec"]
-    data["channel00_resolution"] = host.settings("/%s/ip_cameras/%s" % (server_guid, camera))["channel00_resolution"]
-    data["channel00_fps"] = host.settings("/%s/ip_cameras/%s" % (server_guid, camera))["channel00_fps"]
-    result.append(data)
+def get_data_from_ip_device():
+    device_info_list = []
+    device_info = {}
+    for sett in host.settings("ip_cameras").ls():
+        if sett.type == "Grabber":
+            if sett["grabber_enabled"]:
+                device_info["name"] = sett["name"]
+                device_info["guid"] = sett.guid
+                device_info["channel00_audio_codec"] = sett["channel00_audio_codec"]
+                device_info["channel00_resolution"] = sett["channel00_resolution"]
+                device_info["channel00_fps"] = sett["channel00_fps"]
+                device_info_list.append(device_info)
+                device_info = {}
+    return device_info_list
 
-with open(full_path, 'w') as f:
-    json.dump(result, f)
 
+message(get_data_from_ip_device())
+
+
+with open(file_path, 'w') as f:
+    json.dump(get_data_from_ip_device(), f)
