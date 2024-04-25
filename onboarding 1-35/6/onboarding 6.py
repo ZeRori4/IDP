@@ -12,7 +12,7 @@ import host
 def get_data_from_ip_device():
     device_info_list = []
     device_info = {}
-    for sett in host.settings("/{}/ip_cameras".format(host.settings("").guid)).ls():
+    for sett in host.settings("ip_cameras").ls():
         if sett.type == "Grabber":
             if sett["grabber_enabled"]:
                 device_info["name"] = sett["name"]

@@ -5,13 +5,18 @@
 	<version>1.0</version>
 </parameters>
 '''
-import host
 import os
 import json
 
+import host
+
 shots_path = host.settings("system_wide_options")["screenshots_folder"]
+new_folder = "new_folder_name"
+new_path = os.path.join(shots_path, new_folder)
+if not os.path.exists(new_path):
+    os.makedirs(new_path)
 name_file = "ip_cameras.json"
-file_path = os.path.join(shots_path, name_file)
+file_path = os.path.join(new_path, name_file)
 
 def get_data_from_ip_device():
     device_info_list = []
@@ -27,9 +32,6 @@ def get_data_from_ip_device():
                 device_info_list.append(device_info)
                 device_info = {}
     return device_info_list
-
-
-message(get_data_from_ip_device())
 
 
 with open(file_path, 'w') as f:

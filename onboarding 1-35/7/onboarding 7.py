@@ -16,7 +16,6 @@ import host
 import random
 import string
 
-
 GLOBALS = globals()
 
 IP_DEVICE = GLOBALS.get("IP_DEVICE", "")
@@ -27,13 +26,21 @@ def generate_random_name():
     return ''.join(random.choice(letters_and_digits) for i in range(8))
 
 
-
-def name_ip_device():
+def set_new_ip_device_names():
     ip_device_list = IP_DEVICE.split(',')
-    for x in host.objects_list("IP Device"):
-        sett = host.settings("/%s/ip_cameras/%s" % (x[3][:-1], x[1]))
-        if x[0] in ip_device_list:
-            sett["name"] = generate_random_name()
+    if not IP_DEVICE:
+        for sett in host.settings("ip_cameras").ls():
+            if sett.type == "Grabber" and sett["grabber_enabled"]:
+                sett["name"] = generate_random_name()
+    else:
+        for ip_device in ip_device_list:
+            for sett in host.settings("ip_cameras").ls():
+                if (
+                        sett.type == "Grabber"
+                        and sett["grabber_enabled"]
+                        and sett["name"] == ip_device
+                ):
+                    sett["name"] = generate_random_name()
 
 
-name_ip_device()
+set_new_ip_device_names()

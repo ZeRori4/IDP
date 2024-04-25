@@ -44,7 +44,6 @@ resources = {
 t1utils.resources_check(script_path, resources)
 
 from func import сalculator
-import host
 
 result = сalculator.calculate(user_function, param_1, param_2)
 raise Exception(result)

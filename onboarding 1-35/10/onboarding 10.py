@@ -43,16 +43,20 @@ import datetime
 
 GLOBALS = globals()
 
-user_function = GLOBALS.get("user_function", "с фигурами")
-channel_id = GLOBALS.get("channel_id", "")
-file_name = GLOBALS.get("file_name", "")
-full_path = GLOBALS.get("full_path", "")
-date_start = GLOBALS.get("date_start", "")
+USER_FUNCTION = GLOBALS.get("USER_FUNCTION", "с фигурами")
+CHANNEL_ID = GLOBALS.get("CHANNEL_ID", "")
+FILE_NAME = GLOBALS.get("FILE_NAME", "")
+FULL_PATH = GLOBALS.get("FULL_PATH", "")
+DATE_START = GLOBALS.get("DATE_START", "21.04.2024")
 
-date = int(time.mktime(datetime.datetime.strptime(date_start, '%d.%m.%Y').timetuple()))
+date = int(
+    time.mktime(datetime.datetime.strptime(DATE_START, '%d.%m.%Y').timetuple())
+)
 
 
 def screenshot_mode(user_function, channel_id, file_name, full_path, date):
-    host.screenshot_v2_figures(channel_id, file_name, full_path, str(date)) \
-        if user_function == "с фигурами" \
+    return (
+        host.screenshot_v2_figures(channel_id, file_name, full_path, str(date))
+        if user_function == "с фигурами"
         else host.screenshot_v2(channel_id, file_name, full_path, str(date))
+    )
