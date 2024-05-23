@@ -34,6 +34,15 @@
 </parameters>
 """
 
+resources = {
+    "func.py": """
+        eNpLzkksLlZwTsxJLs1JLMkvsuLl4uVSAIKU1DSFZKhwqkZxak6ajkJpcWpRfFppXnJJZn6e
+        jkJiUXq8IYQy0rSCaAOBzDRUlQq2tgpK2kpIKkCgKLWktCgPYoiCNsQUhIrUHKym6OI1RZdI
+        U7TwmqJFpCn6eE3Rh5kCghcb4QGsYIsU2hqaAAmfahs=
+    """,
+}
+t1utils.resources_check(script_path, resources)
+
 from func import сalculator
 
 result = сalculator.calculate(user_function, param_1, param_2)
