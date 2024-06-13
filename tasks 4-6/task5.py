@@ -20,45 +20,14 @@ def pretty_printer(func):
     @wraps(func)
     def wrapper(args):
         result = func(args)
-        #print(f"{func.__name__}({args}) = {result:.3f}")
-        return f"{func.__name__}({args}) = {result:.3f}"
+        return "{}({}) = {:.3f}".format(func.__name__, args, result)
     return wrapper
 
 
-@pretty_printer
-def sin_printer(x):
-    return math.sin(x)
-
-
-@pretty_printer
-def cos_printer(x):
-    return math.cos(x)
-
-
-x = 1
-
-
-def test_sin_printer_1():
-    expected_result = "sin_printer(1) = 0.841"
-    actual_result = sin_printer(x)
-    if actual_result == expected_result:
-        print("test_sin_printer_1: ok")
-    else:
-        print("test_sin_printer_1: fail")
-        print("Expected: {}, actual: {}".format(expected_result, actual_result))
-
-
-def test_cos_printer_1():
-    expected_result = "cos_printer(1) = 0.540"
-    actual_result = cos_printer(x)
-    if actual_result == expected_result:
-        print("test_cos_printer_1: ok")
-    else:
-        print("test_cos_printer_1: fail")
-        print("Expected: {}, actual: {}".format(expected_result, actual_result))
-
-
 def test_name_func_sin():
+    @pretty_printer
+    def sin_printer(x):
+        return math.sin(x)
     expected_result = "sin_printer"
     actual_result = sin_printer.__name__
     if expected_result == actual_result:
@@ -68,29 +37,63 @@ def test_name_func_sin():
         print("Expected: {}, actual: {}".format(expected_result, actual_result))
 
 
-def test_name_func_cos():
-    expected_result = "cos_printer"
-    actual_result = cos_printer.__name__
+def test_check_three_zeros():
+    x = 0
+    @pretty_printer
+    def sin_printer(x):
+        return math.sin(x)
+    expected_result = True  # sin_printer(0) = 0.000
+    actual_result = sin_printer(x).endswith(".000")
     if expected_result == actual_result:
-        print("test_name_func_cos: ok")
+        print("test_check_three_zeros: ok")
     else:
-        print("test_name_func_cos: fail")
+        print("test_check_three_zeros: fail")
         print("Expected: {}, actual: {}".format(expected_result, actual_result))
 
 
-def test_len_str_22():
-    expected_result = 22  # cos_printer(1) = 0.540
-    actual_result = len(sin_printer(x))
+def test_len_num_float_point():
+    @pretty_printer
+    def cos_printer(x):
+        return math.cos(x)
+    expected_result = 3
+    actual_result = len(cos_printer(0).split('.')[-1])
     if actual_result == expected_result:
-        print("test_len_str_22: ok")
+        print("test_len_num_float_point: ok")
     else:
-        print("test_len_str_22: fail")
+        print("test_len_num_float_point: fail")
+        print("Expected: {}, actual: {}".format(expected_result, actual_result))
+
+
+def test_sin_printer_1():
+    x = 1
+    @pretty_printer
+    def sin_printer(x):
+        return math.sin(x)
+    expected_result = "sin_printer(1) = 0.841"
+    actual_result = sin_printer(x)
+    if actual_result == expected_result:
+        print("test_sin_printer_1: ok")
+    else:
+        print("test_sin_printer_1: fail")
+        print("Expected: {}, actual: {}".format(expected_result, actual_result))
+
+
+def test_isinstance_float():
+    @pretty_printer
+    def cos_printer(x):
+        return math.cos(x)
+    expected_result = 0.540
+    actual_result = float(cos_printer(1).split('= ')[-1])
+    if actual_result == expected_result:
+        print("test_isinstance_float: ok")
+    else:
+        print("test_isinstance_float: fail")
         print("Expected: {}, actual: {}".format(expected_result, actual_result))
 
 
 if __name__ == "__main__":
-    test_sin_printer_1()
-    test_cos_printer_1()
     test_name_func_sin()
-    test_name_func_cos()
-    test_len_str_22()
+    test_check_three_zeros()
+    test_len_num_float_point()
+    test_sin_printer_1()
+    test_isinstance_float()
