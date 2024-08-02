@@ -8,19 +8,13 @@
 
 
 def get_odd_numbers_and_on_dir_3(x, y):
-    odd_numbers_list = []
-    if x < y:
-        for num in range(x, y + 1):
-            if num % 2 != 0:
-                if num % 3 != 0:
-                    odd_numbers_list.append(num)
-    else:
-        for num in range(y, x + 1):
-            if num % 2 != 0:
-                if num % 3 != 0:
-                    odd_numbers_list.append(num)
-    return odd_numbers_list
-
+    # odd_numbers_list = []
+    # for num in range(min(x, y), max(x, y) + 1):
+    #     if num % 2 != 0:
+    #         if num % 3 != 0:
+    #             odd_numbers_list.append(num)
+    # return odd_numbers_list
+    return [num for num in range(min(x, y), max(x, y) + 1) if num % 2 != 0 if num % 3 != 0]
 
 x1 = 5
 y1 = 15

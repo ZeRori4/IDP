@@ -13,11 +13,11 @@
 #     return string.split()  # строковый метод ;(
 
 
-def split_string_2(string):
+def split_string_2(full_string):
     result = []
     word = ''
-    for letter in string:
-        if letter.isspace():  # строковый метод ;(
+    for letter in full_string:
+        if letter == ' ':
             print("нашёл пробел %s" % letter)
             if word:
                 result.append(word)

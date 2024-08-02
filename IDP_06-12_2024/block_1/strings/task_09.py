@@ -6,21 +6,13 @@
 '''
 
 
-def reverse_word_string(string):
-    result = []
-    for letter in string:
-        if letter.isdigit():
-            letter = ""
-            result.append(letter)
-        elif letter.islower():
-            letter = letter.upper()
-            result.append(letter)
-        elif letter.isupper():
-            letter = letter.lower()
-            result.append(letter)
-        elif letter.isspace():
-            letter = " "
-            result.append(letter)
+def reverse_word_string(full_str):
+    result = [
+        letter.upper() if letter.islower() else
+        letter.lower() if letter.isupper() else
+        " " if letter.isspace() else ""
+        for letter in full_str
+    ]
     return "".join(result)
 
 

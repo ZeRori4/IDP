@@ -6,11 +6,12 @@
 '''
 
 
-def get_set_str(string):
-    return "".join(set(string))
+def get_set_str(full_str):
+    show = set()
+    return ''.join([sub_str for sub_str in full_str if not (sub_str in show or show.add(sub_str))])
 
 
-string_1 = "qweqwewerert"
+string_1 = "q we qwew erert"
 
 print(get_set_str(string_1))
 

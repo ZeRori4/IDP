@@ -8,16 +8,14 @@
 
 
 def get_odd_numbers(x, y):
-    odd_numbers_list = []
-    if x < y:
-        for num in range(x, y + 1):
-            if num % 2 != 0:
-                odd_numbers_list.append(num)
-    else:
-        for num in range(y, x + 1):
-            if num % 2 != 0:
-                odd_numbers_list.append(num)
-    return odd_numbers_list
+    # odd_numbers_list = []
+    # start = min(x, y)
+    # end = max(x, y)
+    # for num in range(start, end + 1):
+    #     if num % 2 != 0:
+    #         odd_numbers_list.append(num)
+    # return odd_numbers_list
+    return [num for num in range(min(x, y), max(x, y) + 1) if num % 2 != 0]
 
 
 x1 = 5
