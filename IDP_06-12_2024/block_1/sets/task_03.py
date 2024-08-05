@@ -15,10 +15,8 @@ def get_set_str(full_str):
             show.add(lower_sub_str)
             result.append(sub_str)
     return ''.join(result)
-    #return ''.join([sub_str for sub_str in full_str if not (sub_str in show or show.add(sub_str))])
 
 
-string_1 = "Vfvf vskf hfve"
+string_1 = "Мама мыла раму"
 
 print(get_set_str(string_1))
-
