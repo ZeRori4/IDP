@@ -8,8 +8,9 @@
 
 def square_number(num):
     try:
-        res = num ** 2
-        print("{}".format(res))
+        if isinstance(num, int):  # TODO пробовал и так , и num = int(num) либо float(num)
+            res = num ** 2
+            print("{}".format(res))
     except ValueError:
         print("Введено не число!")  # TODO почему-то выходит ошибка, а не исключение
 

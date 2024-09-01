@@ -10,10 +10,12 @@
 import os
 from datetime import datetime
 
+
 def loging_count_lines(full_path):
     with open(full_path) as file_obj:
         lines_file = len(file_obj.readlines())
-    full_path_log = os.path.dirname(full_path) + '/log.txt'
+    log_dir = os.path.dirname(full_path)
+    full_path_log = os.path.join(log_dir, 'log.txt')
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     log_entry = "{}: {} - {}\n".format(current_time, full_path, lines_file)
     with open(full_path_log, "a") as file_log:
