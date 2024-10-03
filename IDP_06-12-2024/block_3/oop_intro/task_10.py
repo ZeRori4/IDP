@@ -29,6 +29,8 @@
 Сытость и деньги в отчёте вычисляются на момент окончания дня.
 Попробуйте смоделировать жизнь одного человека в течение года.
 '''
+
+
 import random
 
 
@@ -83,7 +85,7 @@ def simulate_life(days):
 
         actions = []
 
-        while person.is_alive() and len(actions) < 3:  # Allow up to 3 actions per day
+        while person.is_alive() and len(actions) < 3:
             action_priority = random.randint(1, 6)
 
             if person.hunger < 20 and house.food >= person.food_consumption:
