@@ -3,7 +3,7 @@
 <parameters>
     
     <title>onboarding_36</title>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <resources>
         <resource>helpers.py</resource>
@@ -1441,6 +1441,8 @@ class ScreenshotHandler(BaseHandler):
             host.screenshot_v2(
                 "{}_{}".format(channel_guid, SERVER_GUID), screenshot_name, SCREENSHOT_PATH, screenshot_time
             )
-            return http.JsonResponse({"message": screenshot_path})
+            with open(screenshot_path, "rb") as image_file:
+                image_data = image_file.read()
+                return http.HttpResponse(data=image_data, headers={"Content-Type": "image/jpeg"})
         except Exception as err:
             return http.JsonResponse({"message": "Error when creating a screenshot, error: {}".format(err)})
