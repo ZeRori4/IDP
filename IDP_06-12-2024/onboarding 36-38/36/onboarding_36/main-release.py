@@ -1406,7 +1406,6 @@ resources = {
 }
 t1utils.resources_check(script_path, resources)
 import os
-import time
 from datetime import datetime
 
 import host
@@ -1442,8 +1441,6 @@ class ScreenshotHandler(BaseHandler):
             host.screenshot_v2(
                 "{}_{}".format(channel_guid, SERVER_GUID), screenshot_name, SCREENSHOT_PATH, screenshot_time
             )
-            time.sleep(2)
-
             return http.JsonResponse({"message": screenshot_path})
         except Exception as err:
             return http.JsonResponse({"message": "Error when creating a screenshot, error: {}".format(err)})
