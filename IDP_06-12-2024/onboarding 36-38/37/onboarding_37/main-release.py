@@ -3,7 +3,7 @@
 <parameters>
     
     <title>onboarding_37</title>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <resources>
         <resource>helpers.py</resource>
@@ -1407,20 +1407,31 @@ resources = {
 t1utils.resources_check(script_path, resources)
 
 
-import os
-from datetime import datetime
+import json
 
 import host
 from exthttp import create_app, BaseHandler
 from exthttp import http
 
-SCREENSHOT_PATH = host.settings("system_wide_options")["screenshots_folder"]
-SERVER_GUID = host.settings("").guid
-
 APP_NAME = host.stats().parent().name
 app = create_app("onboarding_37")
 app.create_module(name=APP_NAME, icon_path="static/img/trassir.png")
 
+
+def get_info_scripts():
+    list_info_scr = []
+    for sett in host.settings("scripts").ls():
+        stats = host.stats()
+        script = stats.parent()
+        if sett.type == "Script":
+            dict_info = {
+                "name": sett["name"].decode('utf-8'),
+                "guid": script.guid,
+                "already_running": sett["enable"],
+                "last_error": stats["last_error"],
+            }
+            list_info_scr.append(dict_info)
+    return list_info_scr
 
 @app.route("index")
 class IndexHandler(BaseHandler):
@@ -1428,23 +1439,7 @@ class IndexHandler(BaseHandler):
         return http.HttpResponse("Hello world")
 
 
-@app.route("screenshot")  # https://localhost:8080/s/onboarding_36/screenshot?channel_guid=A02zwoe0
+@app.route("scripts")  # https://localhost:8080/s/onboarding_37/scripts
 class ScreenshotHandler(BaseHandler):
     def get(self, request, *args, **kwargs):
-        channel_guid = request.GET.get("channel_guid")
-        try:
-            obj = host.object(channel_guid)
-            if not hasattr(obj, "screenshot_v2"):
-                return http.JsonResponse({"message": "Screenshot with {} not found".format(channel_guid)})
-            dt = datetime.now()
-            screenshot_time = dt.strftime("%Y%m%d_%H%M%S")
-            screenshot_name = "{}_{}_{}.jpg".format(channel_guid, host.random_guid(), screenshot_time)
-            screenshot_path = os.path.join(SCREENSHOT_PATH, screenshot_name)
-            host.screenshot_v2(
-                "{}_{}".format(channel_guid, SERVER_GUID), screenshot_name, SCREENSHOT_PATH, screenshot_time
-            )
-            with open(screenshot_path, "rb") as image_file:
-                image_data = image_file.read()
-                return http.HttpResponse(data=image_data, headers={"Content-Type": "image/jpeg"})
-        except Exception as err:
-            return http.JsonResponse({"message": "Error when creating a screenshot, error: {}".format(err)})
+        return http.JsonResponse(json.loads(json.dumps({"message": get_info_scripts()})))
