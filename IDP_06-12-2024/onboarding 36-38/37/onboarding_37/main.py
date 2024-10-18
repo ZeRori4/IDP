@@ -3,7 +3,7 @@
 <parameters>
     
     <title>onboarding_37</title>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 
     <resources>
         <resource>helpers.py</resource>
@@ -28,16 +28,14 @@
 </parameters>
 '''
 
-
-import json
-
 import host
 from exthttp import create_app, BaseHandler
 from exthttp import http
 
 APP_NAME = host.stats().parent().name
-app = create_app("onboarding_37")
+app = create_app("onboarding_38")
 app.create_module(name=APP_NAME, icon_path="static/img/trassir.png")
+app.need_auth = False
 
 
 def get_info_scripts():
@@ -50,10 +48,11 @@ def get_info_scripts():
                 "name": sett["name"].decode('utf-8'),
                 "guid": script.guid,
                 "already_running": sett["enable"],
-                "last_error": stats["last_error"],
+                "last_error": sett.cd("stats")["last_error"],
             }
             list_info_scr.append(dict_info)
     return list_info_scr
+
 
 @app.route("index")
 class IndexHandler(BaseHandler):
@@ -61,7 +60,13 @@ class IndexHandler(BaseHandler):
         return http.HttpResponse("Hello world")
 
 
-@app.route("scripts")  # https://localhost:8080/s/onboarding_37/scripts
+@app.route("scripts")
 class ScreenshotHandler(BaseHandler):
     def get(self, request, *args, **kwargs):
-        return http.JsonResponse(json.loads(json.dumps({"message": get_info_scripts()})))
+        if request.user.has_view_rights:
+            return http.JsonResponse({"message": get_info_scripts()})
+        return http.JsonResponse({"error": "Forbidden"}, status=403)
+    get.need_auth = True
+
+# https://localhost:8080/login?username=ptz&password=ptz  - получаем sid
+# https://localhost:8080/s/onboarding_38/scripts?sid=I9dsFPQM  - доступ к данным
